@@ -4,24 +4,36 @@ import { render } from "ejs";
 
 const app = express();
 const port = 3000;
-const apiURL = "https://api.artic.edu/api/v1/artworks";
+const apiURL = "https://collectionapi.metmuseum.org/public/collection/v1/objects";
 
 app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
   try {
-    let response = await axios.get(`${apiURL}?limit=1`);
-    let result = response.data;
+    //get a object with the total amount of artworks and the id from european paintings department
+    let response = await axios.get(`${apiURL}?departmentIds=11`);
+    let result = response.data
 
-    let randomPage = Math.floor(Math.random() * result.pagination.total_pages);
+    // from all the artworks choose a random one and get its details
+    let randomArtId = result.objectIDs[Math.floor(Math.random() * result.total)]
+    let randomArt = (await axios.get(`${apiURL}/${randomArtId}`)).data;
 
-    result = (await axios.get(`${apiURL}?limit=1&page=${randomPage}`)).data;
-    let artwork = result.data[0];
-    let artworkImage = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`;
-    console.log(artworkImage);
-    res.render("index.ejs", { artwork: artwork, artworkImage: artworkImage });
+    // if the random artwork does not have a picture, get another random one until it does have a picture
+    let hasImage = false
+    while (!hasImage) {
+      if(randomArt.primaryImage === "") {
+        randomArtId = result.objectIDs[Math.floor(Math.random() * result.total)]
+        randomArt = (await axios.get(`${apiURL}/${randomArtId}`)).data;
+      } else {
+        hasImage = true
+      }
+    }
+
+    res.render("index.ejs", { artwork: randomArt });
+
   } catch (error) {
     console.error("Failed to make request:", error.message);
+    res.send("Something went wrong, try refreshing the page")
   }
 });
 

@@ -31,19 +31,18 @@
   </head>
   <body>
     <header>
-      <img id="logo" src="images/randart-logo.svg" alt="Randart logo" />
+      <img id="logo" src="images/randart-logo.svg" alt="The Randart logo" />
     </header>
     <main>
       <div class="painting-display">
-        <img src="<%= artworkImage %>" alt="" />
+        <img src="<%= artwork.primaryImage%>" alt="Image of the painting '<%= artwork.title %>' by <%= artwork.artistDisplayName %>" />
       </div>
       <div class="painting-description">
         <h2><%= artwork.title %></h2>
-        <% if (artwork.description !== null) { %>
-            <%- artwork.description %>
-        <% } else { %>
-            <p>No description</p>
-        <% } %>
+        <p><b>Artist: </b><%= artwork.artistDisplayName %></p>
+        <p><b>Finish Date: </b><%= artwork.objectEndDate %></p>
+        <p><b>Medium: </b><%= artwork.medium %></p>
+        <p><b>Dimensions: </b><%= artwork.dimensions %></p>
       </div>
     </main>
     <footer>
