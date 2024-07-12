@@ -10,7 +10,7 @@ header {
   height: 120px;
   display: flex;
   align-items: center;
-  padding: 0 50px;
+  padding: 0 100px;
   border-bottom: solid black 2px;
 }
 
@@ -20,7 +20,7 @@ header {
 }
 
 .painting-display {
-  background-color: #e8e8e8;
+  background-color: #f3f3f3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,13 +34,13 @@ header {
 
 .painting-description > p {
   font-size: 1.3em;
-  margin: 50px;
+  margin: 50px 100px;
 }
 
 .painting-description > h2 {
   font-family: "Baskervville SC", serif;
   font-size: 2.5em;
-  margin: 50px;
+  margin: 50px 100px;
 }
 
 footer {
